@@ -21,3 +21,13 @@ kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
 kaos> json.keys(a)
 ['a', 'b', 'c']
 ```
+
+### list json.values(dict d)
+
+Return all the values in dictionary `d`:
+
+```chaos
+kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
+kaos> json.values(a)
+[1, 2, 3]
+```
