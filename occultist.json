@@ -1,8 +1,8 @@
 {
-    "name": "template",
+    "name": "json",
     "version": "1.0.0",
-    "description": "Template for Chaos C extension developers.",
-    "tags": ["official", "template"],
+    "description": "JSON library of the Chaos langauge.",
+    "tags": ["official", "json", "dict"],
     "type": "extension",
     "license": "MIT",
     "authors": [
