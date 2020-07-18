@@ -52,3 +52,14 @@ kaos> str json_encoded = json.encode(a)
 kaos> json_encoded
 {"a": 1, "b": 2, "c": 3}
 ```
+
+### dict json.decode(str json)
+
+Turn JSON string `json` into a dictionary that Chaos language understands.
+
+```chaos
+kaos> str b = "{'d': 4, 'e': 5, 'f': 6}"
+kaos> dict json_decoded = json.decode(b)
+kaos> json_decoded
+{'d': 4, 'e': 5, 'f': 6}
+```
