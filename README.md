@@ -31,3 +31,13 @@ kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
 kaos> json.values(a)
 [1, 2, 3]
 ```
+
+### dict json.flip(dict d)
+
+Exchanges all keys with their associated values in dictionary `d`:
+
+```chaos
+kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
+kaos> json.flip(a)
+{'1': 'a', '2': 'b', '3': 'c'}
+```

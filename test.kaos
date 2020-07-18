@@ -3,3 +3,4 @@ import json
 dict a = {'a': 1, 'b': 2, 'c': 3}
 print json.keys(a)
 print json.values(a)
+print json.flip(a)

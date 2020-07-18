@@ -77,11 +77,42 @@ int KAOS_EXPORT Kaos_values()
     return 0;
 }
 
+// dict json.flip(dict d)
+
+char *flip_params_name[] = {
+    "d"
+};
+unsigned flip_params_type[] = {
+    K_DICT
+};
+unsigned short flip_params_length = (unsigned short) sizeof(flip_params_type) / sizeof(unsigned);
+int KAOS_EXPORT Kaos_flip()
+{
+    unsigned long dict_length = kaos.getDictLength(flip_params_name[0]);
+    enum Type dict_type = kaos.getDictType(flip_params_name[0]);
+
+    kaos.startBuildingDict();
+
+    for (unsigned long i = 0; i < dict_length; i++) {
+        char *key = kaos.getDictKeyByIndex(flip_params_name[0], (long long) i);
+        char *value = kaos.getDictElementStringByTypeCasting(flip_params_name[0], key);
+        kaos.createVariableString(value, key);
+        free(key);
+        free(value);
+    }
+
+    kaos.returnDict(dict_type);
+    return 0;
+}
+
 int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
 {
     kaos = _kaos;
+
+    // Dictionary operations
     kaos.defineFunction("keys", K_LIST, keys_params_name, keys_params_type, keys_params_length);
     kaos.defineFunction("values", K_LIST, values_params_name, values_params_type, values_params_length);
+    kaos.defineFunction("flip", K_DICT, flip_params_name, flip_params_type, flip_params_length);
 
     return 0;
 }
