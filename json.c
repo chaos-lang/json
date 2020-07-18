@@ -105,6 +105,24 @@ int KAOS_EXPORT Kaos_flip()
     return 0;
 }
 
+// JSON related
+
+// str json.encode(dict d)
+
+char *encode_params_name[] = {
+    "d"
+};
+unsigned encode_params_type[] = {
+    K_DICT
+};
+unsigned short encode_params_length = (unsigned short) sizeof(encode_params_type) / sizeof(unsigned);
+int KAOS_EXPORT Kaos_encode()
+{
+    char *json = kaos.dumpVariableToString(encode_params_name[0], false, true, true);
+    kaos.returnVariableString(json);
+    return 0;
+}
+
 int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
 {
     kaos = _kaos;
@@ -113,6 +131,9 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
     kaos.defineFunction("keys", K_LIST, keys_params_name, keys_params_type, keys_params_length);
     kaos.defineFunction("values", K_LIST, values_params_name, values_params_type, values_params_length);
     kaos.defineFunction("flip", K_DICT, flip_params_name, flip_params_type, flip_params_length);
+
+    // JSON related
+    kaos.defineFunction("encode", K_STRING, encode_params_name, encode_params_type, encode_params_length);
 
     return 0;
 }

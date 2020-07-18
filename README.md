@@ -41,3 +41,14 @@ kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
 kaos> json.flip(a)
 {'1': 'a', '2': 'b', '3': 'c'}
 ```
+
+### str json.encode(dict d)
+
+Return a string containing the JSON representation of dictionary `d`:
+
+```chaos
+kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
+kaos> str json_encoded = json.encode(a)
+kaos> json_encoded
+{"a": 1, "b": 2, "c": 3}
+```
