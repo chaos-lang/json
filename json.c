@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "Chaos.h"
 
@@ -52,24 +53,24 @@ int KAOS_EXPORT Kaos_values()
         enum ValueType value_type = kaos.getDictElementValueType(values_params_name[0], key);
         char *value = NULL;
         switch (value_type)
-            {
-                case V_BOOL:
-                    kaos.createVariableBool(NULL, kaos.getDictElementBool(values_params_name[0], key));
-                    break;
-                case V_INT:
-                    kaos.createVariableInt(NULL, kaos.getDictElementInt(values_params_name[0], key));
-                    break;
-                case V_FLOAT:
-                    kaos.createVariableFloat(NULL, kaos.getDictElementFloat(values_params_name[0], key));
-                    break;
-                case V_STRING:
-                    value = kaos.getDictElementString(values_params_name[0], key);
-                    kaos.createVariableString(NULL, value);
-                    free(value);
-                    break;
-                default:
-                    break;
-            }
+        {
+            case V_BOOL:
+                kaos.createVariableBool(NULL, kaos.getDictElementBool(values_params_name[0], key));
+                break;
+            case V_INT:
+                kaos.createVariableInt(NULL, kaos.getDictElementInt(values_params_name[0], key));
+                break;
+            case V_FLOAT:
+                kaos.createVariableFloat(NULL, kaos.getDictElementFloat(values_params_name[0], key));
+                break;
+            case V_STRING:
+                value = kaos.getDictElementString(values_params_name[0], key);
+                kaos.createVariableString(NULL, value);
+                free(value);
+                break;
+            default:
+                break;
+        }
         free(key);
     }
 
@@ -140,6 +141,83 @@ int KAOS_EXPORT Kaos_decode()
     return 0;
 }
 
+// Searching & Replacing
+
+// str json.search(dict d, any x)
+
+char *search_params_name[] = {
+    "d",
+    "x"
+};
+unsigned search_params_type[] = {
+    K_DICT,
+    K_ANY
+};
+unsigned short search_params_length = (unsigned short) sizeof(search_params_type) / sizeof(unsigned);
+int KAOS_EXPORT Kaos_search()
+{
+    unsigned long dict_length = kaos.getDictLength(search_params_name[0]);
+    enum Type dict_type = kaos.getDictType(search_params_name[0]);
+
+    for (unsigned long i = 0; i < dict_length; i++) {
+        char *key = kaos.getDictKeyByIndex(search_params_name[0], (long long) i);
+        enum ValueType value_type = kaos.getDictElementValueType(search_params_name[0], key);
+
+        bool x_b, y_b;
+        long long x_i, y_i;
+        long double x_f, y_f;
+        char *x_s, *y_s;
+
+        switch (value_type)
+        {
+            case V_BOOL:
+                x_b = kaos.getVariableBool(search_params_name[1]);
+                y_b = kaos.getDictElementBool(search_params_name[0], key);
+                if (x_b == y_b) {
+                    kaos.returnVariableString(key);
+                    return 0;
+                }
+                break;
+            case V_INT:
+                x_i = kaos.getVariableInt(search_params_name[1]);
+                y_i = kaos.getDictElementInt(search_params_name[0], key);
+                if (x_i == y_i) {
+                    kaos.returnVariableString(key);
+                    return 0;
+                }
+                break;
+            case V_FLOAT:
+                x_f = kaos.getVariableFloat(search_params_name[1]);
+                y_f = kaos.getDictElementFloat(search_params_name[0], key);
+                if (x_f == y_f) {
+                    kaos.returnVariableString(key);
+                    return 0;
+                }
+                break;
+            case V_STRING:
+                x_s = kaos.getVariableString(search_params_name[1]);
+                y_s = kaos.getDictElementString(search_params_name[0], key);
+                if (strcmp(x_s, y_s) == 0) {
+                    free(x_s);
+                    free(y_s);
+                    kaos.returnVariableString(key);
+                    return 0;
+                }
+                free(x_s);
+                free(y_s);
+                break;
+            default:
+                break;
+        }
+        free(key);
+    }
+
+    char *result = malloc(1);
+    strcpy(result, "");
+    kaos.returnVariableString(result);
+    return 0;
+}
+
 int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
 {
     kaos = _kaos;
@@ -152,6 +230,9 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
     // JSON related
     kaos.defineFunction("encode", K_STRING, encode_params_name, encode_params_type, encode_params_length);
     kaos.defineFunction("decode", K_DICT, decode_params_name, decode_params_type, decode_params_length);
+
+    // Searching & Replacing
+    kaos.defineFunction("search", K_STRING, search_params_name, search_params_type, search_params_length);
 
     return 0;
 }

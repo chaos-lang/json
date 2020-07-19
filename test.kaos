@@ -11,3 +11,8 @@ print json_encoded
 str b = '{"d": 4, "e": 5, "f": 6}'
 dict json_decoded = json.decode(b)
 print json_decoded
+
+print json.search(a, 2)
+dict c = {'a': 'foo', 'b': 'bar', 'c': 'baz'}
+print json.search(c, 'baz')
+print json.search(c, 'jazz')
