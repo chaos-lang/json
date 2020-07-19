@@ -157,7 +157,6 @@ unsigned short search_params_length = (unsigned short) sizeof(search_params_type
 int KAOS_EXPORT Kaos_search()
 {
     unsigned long dict_length = kaos.getDictLength(search_params_name[0]);
-    enum Type dict_type = kaos.getDictType(search_params_name[0]);
 
     for (unsigned long i = 0; i < dict_length; i++) {
         char *key = kaos.getDictKeyByIndex(search_params_name[0], (long long) i);
@@ -218,6 +217,88 @@ int KAOS_EXPORT Kaos_search()
     return 0;
 }
 
+// dict json.replace(dict target, any needle, any replacement)
+
+char *replace_params_name[] = {
+    "target",
+    "needle",
+    "replacement"
+};
+unsigned replace_params_type[] = {
+    K_DICT,
+    K_ANY,
+    K_ANY
+};
+unsigned short replace_params_length = (unsigned short) sizeof(replace_params_type) / sizeof(unsigned);
+int KAOS_EXPORT Kaos_replace()
+{
+    unsigned long dict_length = kaos.getDictLength(replace_params_name[0]);
+    enum Type dict_type = kaos.getDictType(replace_params_name[0]);
+
+    kaos.startBuildingDict();
+
+    for (unsigned long i = 0; i < dict_length; i++) {
+        char *key = kaos.getDictKeyByIndex(replace_params_name[0], (long long) i);
+        enum ValueType value_type = kaos.getDictElementValueType(replace_params_name[0], key);
+
+        bool x_b, y_b;
+        long long x_i, y_i;
+        long double x_f, y_f;
+        char *x_s, *y_s;
+        char *replacement;
+
+        switch (value_type)
+        {
+            case V_BOOL:
+                x_b = kaos.getVariableBool(replace_params_name[1]);
+                y_b = kaos.getDictElementBool(replace_params_name[0], key);
+                if (x_b == y_b) {
+                    kaos.createVariableBool(key, kaos.getVariableBool(replace_params_name[2]));
+                } else {
+                    kaos.createVariableBool(key, y_b);
+                }
+                break;
+            case V_INT:
+                x_i = kaos.getVariableInt(replace_params_name[1]);
+                y_i = kaos.getDictElementInt(replace_params_name[0], key);
+                if (x_i == y_i) {
+                    kaos.createVariableInt(key, kaos.getVariableInt(replace_params_name[2]));
+                } else {
+                    kaos.createVariableInt(key, y_i);
+                }
+                break;
+            case V_FLOAT:
+                x_f = kaos.getVariableFloat(replace_params_name[1]);
+                y_f = kaos.getDictElementFloat(replace_params_name[0], key);
+                if (x_f == y_f) {
+                    kaos.createVariableFloat(key, kaos.getVariableFloat(replace_params_name[2]));
+                } else {
+                    kaos.createVariableFloat(key, y_f);
+                }
+                break;
+            case V_STRING:
+                x_s = kaos.getVariableString(replace_params_name[1]);
+                y_s = kaos.getDictElementString(replace_params_name[0], key);
+                if (strcmp(x_s, y_s) == 0) {
+                    replacement = kaos.getVariableString(replace_params_name[2]);
+                    kaos.createVariableString(key, replacement);
+                    free(replacement);
+                } else {
+                    kaos.createVariableString(key, y_s);
+                }
+                free(x_s);
+                free(y_s);
+                break;
+            default:
+                break;
+        }
+        free(key);
+    }
+
+    kaos.returnDict(dict_type);
+    return 0;
+}
+
 int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
 {
     kaos = _kaos;
@@ -233,6 +314,7 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
 
     // Searching & Replacing
     kaos.defineFunction("search", K_STRING, search_params_name, search_params_type, search_params_length);
+    kaos.defineFunction("replace", K_DICT, replace_params_name, replace_params_type, replace_params_length);
 
     return 0;
 }

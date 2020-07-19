@@ -14,7 +14,7 @@ import json
 
 ### list json.keys(dict d)
 
-Return all the keys in dictionary `d`:
+Returns all the keys in dictionary `d`.
 
 ```chaos
 kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
@@ -24,7 +24,7 @@ kaos> json.keys(a)
 
 ### list json.values(dict d)
 
-Return all the values in dictionary `d`:
+Returns all the values in dictionary `d`.
 
 ```chaos
 kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
@@ -34,7 +34,7 @@ kaos> json.values(a)
 
 ### dict json.flip(dict d)
 
-Exchanges all keys with their associated values in dictionary `d`:
+Exchanges all keys with their associated values in dictionary `d`.
 
 ```chaos
 kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
@@ -46,7 +46,7 @@ kaos> json.flip(a)
 
 ### str json.encode(dict d)
 
-Return a string containing the JSON representation of dictionary `d`:
+Returns a string containing the JSON representation of dictionary `d`.
 
 ```chaos
 kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
@@ -57,7 +57,7 @@ kaos> json_encoded
 
 ### dict json.decode(str json)
 
-Turn JSON string `json` into a dictionary that Chaos language understands:
+Turns JSON string `json` into a dictionary that Chaos language understands.
 
 ```chaos
 kaos> str b = "{'d': 4, 'e': 5, 'f': 6}"
@@ -70,7 +70,7 @@ kaos> json_decoded
 
 ### str json.search(dict d, any x)
 
-Searches the dictionary `d` for a given value `x` and returns the first corresponding key if successful. Returns an empty string `""` if unsuccessful:
+Searches the dictionary `d` for a given value `x` and returns the first corresponding key if successful. Returns an empty string `""` if unsuccessful.
 
 ```chaos
 kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
@@ -81,4 +81,17 @@ kaos> json.search(c, 'baz')
 c
 kaos> json.search(c, 'jazz')
 
+```
+
+### dict json.replace(dict target, any needle, any replacement)
+
+Replaces all occurrences of the `needle` with the `replacement` in dictionary `target`.
+
+```chaos
+kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
+kaos> json.replace(a, 2, 9)
+{'a': 1, 'b': 9, 'c': 3}
+kaos> dict b = {'a': 'foo', 'b': 'bar', 'c': 'baz'}
+kaos> json.replace(b, 'bar', 'gar')
+{'a': 'foo', 'b': 'gar', 'c': 'baz'}
 ```

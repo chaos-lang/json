@@ -16,3 +16,6 @@ print json.search(a, 2)
 dict c = {'a': 'foo', 'b': 'bar', 'c': 'baz'}
 print json.search(c, 'baz')
 print json.search(c, 'jazz')
+
+print json.replace(a, 2, 9)
+print json.replace(c, 'bar', 'gar')
