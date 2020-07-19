@@ -299,6 +299,24 @@ int KAOS_EXPORT Kaos_replace()
     return 0;
 }
 
+// Information functions
+
+// num json.count(dict d)
+
+char *count_params_name[] = {
+    "d"
+};
+unsigned count_params_type[] = {
+    K_DICT
+};
+unsigned short count_params_length = (unsigned short) sizeof(count_params_type) / sizeof(unsigned);
+int KAOS_EXPORT Kaos_count()
+{
+    unsigned long dict_length = kaos.getDictLength(count_params_name[0]);
+    kaos.returnVariableInt((long long) dict_length);
+    return 0;
+}
+
 int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
 {
     kaos = _kaos;
@@ -315,6 +333,9 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
     // Searching & Replacing
     kaos.defineFunction("search", K_STRING, search_params_name, search_params_type, search_params_length);
     kaos.defineFunction("replace", K_DICT, replace_params_name, replace_params_type, replace_params_length);
+
+    // Information functions
+    kaos.defineFunction("count", K_NUMBER, count_params_name, count_params_type, count_params_length);
 
     return 0;
 }

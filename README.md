@@ -95,3 +95,15 @@ kaos> dict b = {'a': 'foo', 'b': 'bar', 'c': 'baz'}
 kaos> json.replace(b, 'bar', 'gar')
 {'a': 'foo', 'b': 'gar', 'c': 'baz'}
 ```
+
+## Information functions
+
+### num json.count(dict d)
+
+Counts all the keys in given dictionary `d`.
+
+```chaos
+kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
+kaos> json.count(a)
+3
+```

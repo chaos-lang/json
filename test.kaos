@@ -19,3 +19,5 @@ print json.search(c, 'jazz')
 
 print json.replace(a, 2, 9)
 print json.replace(c, 'bar', 'gar')
+
+print json.count(a)
