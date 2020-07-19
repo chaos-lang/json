@@ -1,23 +1,25 @@
 import json
 
+// Dictionary Operations
 dict a = {'a': 1, 'b': 2, 'c': 3}
 print json.keys(a)
 print json.values(a)
 print json.flip(a)
 
+// JSON Related
 str json_encoded = json.encode(a)
 print json_encoded
-
 str b = '{"d": 4, "e": 5, "f": 6}'
 dict json_decoded = json.decode(b)
 print json_decoded
 
+// Searching & Replacing
 print json.search(a, 2)
 dict c = {'a': 'foo', 'b': 'bar', 'c': 'baz'}
 print json.search(c, 'baz')
 print json.search(c, 'jazz')
-
 print json.replace(a, 2, 9)
 print json.replace(c, 'bar', 'gar')
 
+// Information Functions
 print json.count(a)

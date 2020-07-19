@@ -10,7 +10,7 @@ and import it with:
 import json
 ```
 
-## Dictionary operations
+## Dictionary Operations
 
 ### list json.keys(dict d)
 
@@ -42,7 +42,7 @@ kaos> json.flip(a)
 {'1': 'a', '2': 'b', '3': 'c'}
 ```
 
-## JSON related
+## JSON Related
 
 ### str json.encode(dict d)
 
@@ -68,9 +68,9 @@ kaos> json_decoded
 
 ## Searching & Replacing
 
-### str json.search(dict d, any x)
+### str json.search(dict haystack, any needle)
 
-Searches the dictionary `d` for a given value `x` and returns the first corresponding key if successful. Returns an empty string `""` if unsuccessful.
+Searches the dictionary `haystack` for a given value `needle` and returns the first corresponding key if successful. Returns an empty string `""` if unsuccessful.
 
 ```chaos
 kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
@@ -83,9 +83,9 @@ kaos> json.search(c, 'jazz')
 
 ```
 
-### dict json.replace(dict target, any needle, any replacement)
+### dict json.replace(dict haystack, any needle, any replacement)
 
-Replaces all occurrences of the `needle` with the `replacement` in dictionary `target`.
+Replaces all occurrences of the `needle` with the `replacement` in dictionary `haystack`.
 
 ```chaos
 kaos> dict a = {'a': 1, 'b': 2, 'c': 3}
@@ -96,7 +96,7 @@ kaos> json.replace(b, 'bar', 'gar')
 {'a': 'foo', 'b': 'gar', 'c': 'baz'}
 ```
 
-## Information functions
+## Information Functions
 
 ### num json.count(dict d)
 

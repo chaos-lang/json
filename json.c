@@ -4,7 +4,7 @@
 #include "Chaos.h"
 
 
-// Dictionary operations
+// Dictionary Operations
 
 // list json.keys(dict d)
 
@@ -106,7 +106,8 @@ int KAOS_EXPORT Kaos_flip()
     return 0;
 }
 
-// JSON related
+
+// JSON Related
 
 // str json.encode(dict d)
 
@@ -141,13 +142,14 @@ int KAOS_EXPORT Kaos_decode()
     return 0;
 }
 
+
 // Searching & Replacing
 
-// str json.search(dict d, any x)
+// str json.search(dict haystack, any needle)
 
 char *search_params_name[] = {
-    "d",
-    "x"
+    "haystack",
+    "needle"
 };
 unsigned search_params_type[] = {
     K_DICT,
@@ -217,10 +219,10 @@ int KAOS_EXPORT Kaos_search()
     return 0;
 }
 
-// dict json.replace(dict target, any needle, any replacement)
+// dict json.replace(dict haystack, any needle, any replacement)
 
 char *replace_params_name[] = {
-    "target",
+    "haystack",
     "needle",
     "replacement"
 };
@@ -299,7 +301,8 @@ int KAOS_EXPORT Kaos_replace()
     return 0;
 }
 
-// Information functions
+
+// Information Functions
 
 // num json.count(dict d)
 
@@ -321,12 +324,12 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
 {
     kaos = _kaos;
 
-    // Dictionary operations
+    // Dictionary Operations
     kaos.defineFunction("keys", K_LIST, K_ANY, keys_params_name, keys_params_type, keys_params_length);
     kaos.defineFunction("values", K_LIST, K_ANY, values_params_name, values_params_type, values_params_length);
     kaos.defineFunction("flip", K_DICT, K_ANY, flip_params_name, flip_params_type, flip_params_length);
 
-    // JSON related
+    // JSON Related
     kaos.defineFunction("encode", K_STRING, K_ANY, encode_params_name, encode_params_type, encode_params_length);
     kaos.defineFunction("decode", K_DICT, K_ANY, decode_params_name, decode_params_type, decode_params_length);
 
@@ -334,7 +337,7 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
     kaos.defineFunction("search", K_STRING, K_ANY, search_params_name, search_params_type, search_params_length);
     kaos.defineFunction("replace", K_DICT, K_ANY, replace_params_name, replace_params_type, replace_params_length);
 
-    // Information functions
+    // Information Functions
     kaos.defineFunction("count", K_NUMBER, K_ANY, count_params_name, count_params_type, count_params_length);
 
     return 0;
