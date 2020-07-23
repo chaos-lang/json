@@ -325,20 +325,20 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
     kaos = _kaos;
 
     // Dictionary Operations
-    kaos.defineFunction("keys", K_LIST, K_ANY, keys_params_name, keys_params_type, keys_params_length);
-    kaos.defineFunction("values", K_LIST, K_ANY, values_params_name, values_params_type, values_params_length);
-    kaos.defineFunction("flip", K_DICT, K_ANY, flip_params_name, flip_params_type, flip_params_length);
+    kaos.defineFunction("keys", K_LIST, K_ANY, keys_params_name, keys_params_type, keys_params_length, NULL, 0);
+    kaos.defineFunction("values", K_LIST, K_ANY, values_params_name, values_params_type, values_params_length, NULL, 0);
+    kaos.defineFunction("flip", K_DICT, K_ANY, flip_params_name, flip_params_type, flip_params_length, NULL, 0);
 
     // JSON Related
-    kaos.defineFunction("encode", K_STRING, K_ANY, encode_params_name, encode_params_type, encode_params_length);
-    kaos.defineFunction("decode", K_DICT, K_ANY, decode_params_name, decode_params_type, decode_params_length);
+    kaos.defineFunction("encode", K_STRING, K_ANY, encode_params_name, encode_params_type, encode_params_length, NULL, 0);
+    kaos.defineFunction("decode", K_DICT, K_ANY, decode_params_name, decode_params_type, decode_params_length, NULL, 0);
 
     // Searching & Replacing
-    kaos.defineFunction("search", K_STRING, K_ANY, search_params_name, search_params_type, search_params_length);
-    kaos.defineFunction("replace", K_DICT, K_ANY, replace_params_name, replace_params_type, replace_params_length);
+    kaos.defineFunction("search", K_STRING, K_ANY, search_params_name, search_params_type, search_params_length, NULL, 0);
+    kaos.defineFunction("replace", K_DICT, K_ANY, replace_params_name, replace_params_type, replace_params_length, NULL, 0);
 
     // Information Functions
-    kaos.defineFunction("count", K_NUMBER, K_ANY, count_params_name, count_params_type, count_params_length);
+    kaos.defineFunction("count", K_NUMBER, K_ANY, count_params_name, count_params_type, count_params_length, NULL, 0);
 
     return 0;
 }
