@@ -14,6 +14,9 @@ char *keys_params_name[] = {
 unsigned keys_params_type[] = {
     K_DICT
 };
+unsigned keys_params_secondary_type[] = {
+    K_ANY
+};
 unsigned short keys_params_length = (unsigned short) sizeof(keys_params_type) / sizeof(unsigned);
 int KAOS_EXPORT Kaos_keys()
 {
@@ -39,6 +42,9 @@ char *values_params_name[] = {
 };
 unsigned values_params_type[] = {
     K_DICT
+};
+unsigned values_params_secondary_type[] = {
+    K_ANY
 };
 unsigned short values_params_length = (unsigned short) sizeof(values_params_type) / sizeof(unsigned);
 int KAOS_EXPORT Kaos_values()
@@ -86,6 +92,9 @@ char *flip_params_name[] = {
 unsigned flip_params_type[] = {
     K_DICT
 };
+unsigned flip_params_secondary_type[] = {
+    K_ANY
+};
 unsigned short flip_params_length = (unsigned short) sizeof(flip_params_type) / sizeof(unsigned);
 int KAOS_EXPORT Kaos_flip()
 {
@@ -117,11 +126,15 @@ char *encode_params_name[] = {
 unsigned encode_params_type[] = {
     K_DICT
 };
+unsigned encode_params_secondary_type[] = {
+    K_ANY
+};
 unsigned short encode_params_length = (unsigned short) sizeof(encode_params_type) / sizeof(unsigned);
 int KAOS_EXPORT Kaos_encode()
 {
     char *json = kaos.dumpVariableToString(encode_params_name[0], false, true, true);
     kaos.returnVariableString(json);
+    free(json);
     return 0;
 }
 
@@ -132,6 +145,9 @@ char *decode_params_name[] = {
 };
 unsigned decode_params_type[] = {
     K_STRING
+};
+unsigned decode_params_secondary_type[] = {
+    K_ANY
 };
 unsigned short decode_params_length = (unsigned short) sizeof(decode_params_type) / sizeof(unsigned);
 int KAOS_EXPORT Kaos_decode()
@@ -155,6 +171,10 @@ unsigned search_params_type[] = {
     K_DICT,
     K_ANY
 };
+unsigned search_params_secondary_type[] = {
+    K_ANY,
+    K_ANY
+};
 unsigned short search_params_length = (unsigned short) sizeof(search_params_type) / sizeof(unsigned);
 int KAOS_EXPORT Kaos_search()
 {
@@ -176,6 +196,7 @@ int KAOS_EXPORT Kaos_search()
                 y_b = kaos.getDictElementBool(search_params_name[0], key);
                 if (x_b == y_b) {
                     kaos.returnVariableString(key);
+                    free(key);
                     return 0;
                 }
                 break;
@@ -184,6 +205,7 @@ int KAOS_EXPORT Kaos_search()
                 y_i = kaos.getDictElementInt(search_params_name[0], key);
                 if (x_i == y_i) {
                     kaos.returnVariableString(key);
+                    free(key);
                     return 0;
                 }
                 break;
@@ -192,6 +214,7 @@ int KAOS_EXPORT Kaos_search()
                 y_f = kaos.getDictElementFloat(search_params_name[0], key);
                 if (x_f == y_f) {
                     kaos.returnVariableString(key);
+                    free(key);
                     return 0;
                 }
                 break;
@@ -202,6 +225,7 @@ int KAOS_EXPORT Kaos_search()
                     free(x_s);
                     free(y_s);
                     kaos.returnVariableString(key);
+                    free(key);
                     return 0;
                 }
                 free(x_s);
@@ -213,9 +237,7 @@ int KAOS_EXPORT Kaos_search()
         free(key);
     }
 
-    char *result = malloc(1);
-    strcpy(result, "");
-    kaos.returnVariableString(result);
+    kaos.returnVariableString("");
     return 0;
 }
 
@@ -228,6 +250,11 @@ char *replace_params_name[] = {
 };
 unsigned replace_params_type[] = {
     K_DICT,
+    K_ANY,
+    K_ANY
+};
+unsigned replace_params_secondary_type[] = {
+    K_ANY,
     K_ANY,
     K_ANY
 };
@@ -312,6 +339,9 @@ char *count_params_name[] = {
 unsigned count_params_type[] = {
     K_DICT
 };
+unsigned count_params_secondary_type[] = {
+    K_ANY
+};
 unsigned short count_params_length = (unsigned short) sizeof(count_params_type) / sizeof(unsigned);
 int KAOS_EXPORT Kaos_count()
 {
@@ -325,20 +355,20 @@ int KAOS_EXPORT KaosRegister(struct Kaos _kaos)
     kaos = _kaos;
 
     // Dictionary Operations
-    kaos.defineFunction("keys", K_LIST, K_ANY, keys_params_name, keys_params_type, keys_params_length, NULL, 0);
-    kaos.defineFunction("values", K_LIST, K_ANY, values_params_name, values_params_type, values_params_length, NULL, 0);
-    kaos.defineFunction("flip", K_DICT, K_ANY, flip_params_name, flip_params_type, flip_params_length, NULL, 0);
+    kaos.defineFunction("keys", K_LIST, K_ANY, keys_params_name, keys_params_type, keys_params_secondary_type, keys_params_length, NULL, 0);
+    kaos.defineFunction("values", K_LIST, K_ANY, values_params_name, values_params_type, values_params_secondary_type, values_params_length, NULL, 0);
+    kaos.defineFunction("flip", K_DICT, K_ANY, flip_params_name, flip_params_type, flip_params_secondary_type, flip_params_length, NULL, 0);
 
     // JSON Related
-    kaos.defineFunction("encode", K_STRING, K_ANY, encode_params_name, encode_params_type, encode_params_length, NULL, 0);
-    kaos.defineFunction("decode", K_DICT, K_ANY, decode_params_name, decode_params_type, decode_params_length, NULL, 0);
+    kaos.defineFunction("encode", K_STRING, K_ANY, encode_params_name, encode_params_type, encode_params_secondary_type, encode_params_length, NULL, 0);
+    kaos.defineFunction("decode", K_DICT, K_ANY, decode_params_name, decode_params_type, decode_params_secondary_type, decode_params_length, NULL, 0);
 
     // Searching & Replacing
-    kaos.defineFunction("search", K_STRING, K_ANY, search_params_name, search_params_type, search_params_length, NULL, 0);
-    kaos.defineFunction("replace", K_DICT, K_ANY, replace_params_name, replace_params_type, replace_params_length, NULL, 0);
+    kaos.defineFunction("search", K_STRING, K_ANY, search_params_name, search_params_type, search_params_secondary_type, search_params_length, NULL, 0);
+    kaos.defineFunction("replace", K_DICT, K_ANY, replace_params_name, replace_params_type, replace_params_secondary_type, replace_params_length, NULL, 0);
 
     // Information Functions
-    kaos.defineFunction("count", K_NUMBER, K_ANY, count_params_name, count_params_type, count_params_length, NULL, 0);
+    kaos.defineFunction("count", K_NUMBER, K_ANY, count_params_name, count_params_type, count_params_secondary_type, count_params_length, NULL, 0);
 
     return 0;
 }
